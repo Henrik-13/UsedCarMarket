@@ -22,5 +22,5 @@ public class Car extends BaseEntity {
     @Column(nullable = false)
     private String description;
     @Column(nullable = false)
-    private Integer price;
+    private Long price;
 }

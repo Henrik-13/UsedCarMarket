@@ -12,5 +12,5 @@ public class CarOutDto {
     private String make;
     private String model;
     private String description;
-    private Integer price;
+    private Long price;
 }

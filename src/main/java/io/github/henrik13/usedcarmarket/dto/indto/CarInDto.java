@@ -1,9 +1,6 @@
 package io.github.henrik13.usedcarmarket.dto.indto;
 
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +18,7 @@ public class CarInDto {
     @NotBlank
     @Size(max = 200)
     private String description;
-    @Positive
-    @Digits(integer = 10, fraction = 0)
-    private Integer price;
+    @Positive(message = "Price must be a positive number")
+    @Max(value = 9999999999L, message = "Price must not exceed 9,999,999,999")
+    private Long price;
 }
