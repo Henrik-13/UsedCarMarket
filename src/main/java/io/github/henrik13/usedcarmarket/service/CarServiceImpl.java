@@ -1,5 +1,6 @@
 package io.github.henrik13.usedcarmarket.service;
 
+import io.github.henrik13.usedcarmarket.exception.CarNotFoundException;
 import io.github.henrik13.usedcarmarket.model.Car;
 import io.github.henrik13.usedcarmarket.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,19 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Optional<Car> findById(Integer id) {
-        return carRepository.findById(id);
+    public Car findById(Integer id) throws CarNotFoundException {
+        Optional<Car> carOptional = carRepository.findById(id);
+        if (carOptional.isEmpty()) {
+            throw new CarNotFoundException("Car with id " + id + " not found.");
+        }
+        return carOptional.get();
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Integer id) throws CarNotFoundException {
+        if (!carRepository.existsById(id)) {
+            throw new CarNotFoundException("Car with id " + id + " not found.");
+        }
         carRepository.deleteById(id);
     }
 
@@ -35,12 +43,12 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car update(Integer id, Car car) {
+    public Car update(Integer id, Car car) throws CarNotFoundException {
         if (carRepository.existsById(id)) {
             car.setId(id);
             return carRepository.save(car);
         } else {
-            throw new IllegalArgumentException("Car with id " + id + " does not exist.");
+            throw new CarNotFoundException("Car with id " + id + " not found.");
         }
     }
 }

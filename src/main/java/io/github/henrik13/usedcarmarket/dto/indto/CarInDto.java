@@ -1,5 +1,6 @@
 package io.github.henrik13.usedcarmarket.dto.indto;
 
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -21,6 +22,6 @@ public class CarInDto {
     @Size(max = 200)
     private String description;
     @Positive
-    @Size(min = 1, max = 10)
+    @Digits(integer = 10, fraction = 0)
     private Integer price;
 }
