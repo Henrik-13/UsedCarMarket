@@ -33,4 +33,14 @@ public class CarServiceImpl implements CarService {
     public Collection<Car> findAll() {
         return carRepository.findAll();
     }
+
+    @Override
+    public Car update(Integer id, Car car) {
+        if (carRepository.existsById(id)) {
+            car.setId(id);
+            return carRepository.save(car);
+        } else {
+            throw new IllegalArgumentException("Car with id " + id + " does not exist.");
+        }
+    }
 }

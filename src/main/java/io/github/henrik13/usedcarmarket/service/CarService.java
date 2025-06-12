@@ -13,4 +13,6 @@ public interface CarService {
     void deleteById(Integer id);
 
     Collection<Car> findAll();
+
+    Car update(Integer id, Car car);
 }
