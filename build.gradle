@@ -7,6 +7,8 @@ plugins {
 group = 'io.github.henrik13'
 version = '0.0.1-SNAPSHOT'
 
+apply from: "$rootDir/lint.gradle"
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -30,6 +32,16 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // https://mvnrepository.com/artifact/org.mapstruct/mapstruct
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    // https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    implementation group: 'com.h2database', name: 'h2', version: '2.3.232'
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.16'
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    runtimeOnly group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.13'
 }
 
 tasks.named('test') {
