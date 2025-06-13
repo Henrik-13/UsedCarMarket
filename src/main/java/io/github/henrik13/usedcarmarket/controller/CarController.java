@@ -1,11 +1,13 @@
 package io.github.henrik13.usedcarmarket.controller;
 
+import io.github.henrik13.usedcarmarket.dto.indto.CarFilterDto;
 import io.github.henrik13.usedcarmarket.dto.indto.CarInDto;
 import io.github.henrik13.usedcarmarket.dto.outdto.CarOutDto;
 import io.github.henrik13.usedcarmarket.exception.CarNotFoundException;
 import io.github.henrik13.usedcarmarket.mapper.CarMapper;
 import io.github.henrik13.usedcarmarket.model.Car;
 import io.github.henrik13.usedcarmarket.service.CarService;
+import io.github.henrik13.usedcarmarket.specification.CarFilter;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,18 @@ public class CarController {
         log.info("GET /ad/{}", id);
         Car car = carService.findById(id);
         return carMapper.toDto(car);
+    }
+
+    @GetMapping("/search")
+    public Collection<CarOutDto> getCars(CarFilterDto filterDto) {
+        log.info("GET /ad/search");
+        CarFilter carFilter = CarFilter.builder()
+                .model(filterDto.getModel())
+                .make(filterDto.getMake())
+                .minPrice(filterDto.getMinPrice())
+                .maxPrice(filterDto.getMaxPrice())
+                .build();
+        return carMapper.toDtoCollection(carService.findFilteredCars(carFilter));
     }
 
     @PostMapping

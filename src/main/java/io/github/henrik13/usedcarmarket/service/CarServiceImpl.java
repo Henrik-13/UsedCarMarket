@@ -3,7 +3,10 @@ package io.github.henrik13.usedcarmarket.service;
 import io.github.henrik13.usedcarmarket.exception.CarNotFoundException;
 import io.github.henrik13.usedcarmarket.model.Car;
 import io.github.henrik13.usedcarmarket.repository.CarRepository;
+import io.github.henrik13.usedcarmarket.specification.CarFilter;
+import io.github.henrik13.usedcarmarket.specification.CarSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -50,5 +53,11 @@ public class CarServiceImpl implements CarService {
         } else {
             throw new CarNotFoundException("Car with id " + id + " not found.");
         }
+    }
+
+    @Override
+    public Collection<Car> findFilteredCars(CarFilter carFilter) {
+        Specification<Car> specification = CarSpecifications.getCarsByFilter(carFilter);
+        return carRepository.findAll(specification);
     }
 }

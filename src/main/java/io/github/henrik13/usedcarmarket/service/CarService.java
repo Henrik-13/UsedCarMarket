@@ -2,6 +2,7 @@ package io.github.henrik13.usedcarmarket.service;
 
 import io.github.henrik13.usedcarmarket.exception.CarNotFoundException;
 import io.github.henrik13.usedcarmarket.model.Car;
+import io.github.henrik13.usedcarmarket.specification.CarFilter;
 
 import java.util.Collection;
 
@@ -15,4 +16,6 @@ public interface CarService {
     Collection<Car> findAll();
 
     Car update(Integer id, Car car) throws CarNotFoundException;
+
+    Collection<Car> findFilteredCars(CarFilter carFilter);
 }
