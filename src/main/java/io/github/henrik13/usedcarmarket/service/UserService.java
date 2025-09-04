@@ -4,7 +4,6 @@ import io.github.henrik13.usedcarmarket.model.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
-    public User createUser(User user);
-
-    public boolean existsByUsername(String username);
+    User createUser(User user);
+    boolean existsByUsername(String username);
 }
