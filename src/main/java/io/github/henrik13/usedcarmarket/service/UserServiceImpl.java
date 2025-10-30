@@ -3,6 +3,10 @@ package io.github.henrik13.usedcarmarket.service;
 import io.github.henrik13.usedcarmarket.model.User;
 import io.github.henrik13.usedcarmarket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +19,13 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    @Lazy
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JWTService jwtService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -32,4 +43,20 @@ public class UserServiceImpl implements UserService {
     public boolean existsByUsername(String username) throws UsernameNotFoundException {
         return userRepository.existsByUsername(username);
     }
+
+    @Override
+    public String authenticate(User user) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        user.getUsername(),
+                        user.getPassword()
+                )
+        );
+        if (authentication.isAuthenticated()) {
+            return jwtService.generateToken(user.getUsername());
+        }
+        return null;
+    }
+
+
 }

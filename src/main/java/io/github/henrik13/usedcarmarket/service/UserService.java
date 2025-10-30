@@ -5,5 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
     User createUser(User user);
+
     boolean existsByUsername(String username);
+
+    String authenticate(User user);
 }

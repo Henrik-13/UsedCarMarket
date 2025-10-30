@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class ValidationException extends RuntimeException {
-    private final ValidationErrorResponse errorResponse;
+    private final transient ValidationErrorResponse errorResponse;
 
     public ValidationException(ValidationErrorResponse errorResponse) {
         super("Validation error occurred");
